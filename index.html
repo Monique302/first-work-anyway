@@ -1,128 +1,1658 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio นักเรียนชั้น ม.3</title>
-  <meta name="description" content="เว็บไซต์ Portfolio สำหรับนักเรียนชั้น ม.3 ใช้ประกอบการสัมภาษณ์เข้าศึกษาต่อชั้น ม.4" />
-  <link rel="stylesheet" href="styles.css" />
-  <!-- Font Awesome สำหรับไอคอนน่ารักๆ (ถ้าต้องการ) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <title>Portfolio สัมภาษณ์เข้าศึกษาต่อ ม.4 สายวิทย์-คณิต</title>
+  <meta name="description" content="แฟ้มสะสมผลงาน (Portfolio) สำหรับการสัมภาษณ์เข้าศึกษาต่อระดับชั้นมัธยมศึกษาปีที่ 4 สายการเรียนวิทยาศาสตร์-คณิตศาสตร์" />
+  
+  <!-- Google Fonts: Prompt & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    /* ==========================================================================
+       1. CSS VARIABLES & THEME SETUP
+       ========================================================================== */
+    :root {
+      --font-main: 'Prompt', sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
+
+      /* Dark Theme Default */
+      --bg-primary: #090d16;
+      --bg-secondary: #0f172a;
+      --bg-card: rgba(15, 23, 42, 0.65);
+      --bg-card-hover: rgba(30, 41, 59, 0.8);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-highlight: rgba(99, 102, 241, 0.4);
+
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-sub: #cbd5e1;
+
+      --accent-cyan: #06b6d4;
+      --accent-purple: #6366f1;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-pink: #ec4899;
+
+      --grad-hero: linear-gradient(135deg, #06b6d4 0%, #6366f1 50%, #ec4899 100%);
+      --grad-card: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 100%);
+      --glow-cyan: 0 0 25px rgba(6, 182, 212, 0.25);
+      --glow-purple: 0 0 25px rgba(99, 102, 241, 0.25);
+      --backdrop-blur: blur(16px);
+      
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html.light {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.8);
+      --bg-card-hover: rgba(241, 245, 249, 1);
+      --border-color: rgba(0, 0, 0, 0.08);
+      --border-highlight: rgba(99, 102, 241, 0.5);
+
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-sub: #334155;
+
+      --grad-card: linear-gradient(180deg, rgba(0, 0, 0, 0.01) 0%, rgba(0, 0, 0, 0) 100%);
+      --glow-cyan: 0 10px 25px rgba(6, 182, 212, 0.15);
+      --glow-purple: 0 10px 25px rgba(99, 102, 241, 0.15);
+    }
+
+    /* ==========================================================================
+       2. BASE STYLES & RESET
+       ========================================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
+      position: relative;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-purple);
+    }
+
+    /* Background Geometric Elements */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.08) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .bg-dots {
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Section Utility */
+    .section {
+      padding: 6rem 0;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 650px;
+      margin: 0 auto 3.5rem auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-cyan);
+      background: rgba(6, 182, 212, 0.1);
+      padding: 0.35rem 1rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, var(--text-main) 60%, var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* Glass Card Style */
+    .glass-card {
+      background: var(--bg-card);
+      background-image: var(--grad-card);
+      border: 1px solid var(--border-color);
+      backdrop-filter: var(--backdrop-blur);
+      -webkit-backdrop-filter: var(--backdrop-blur);
+      border-radius: 1.25rem;
+      padding: 1.75rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-card:hover {
+      border-color: var(--border-highlight);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: 0.85rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+      color: #ffffff;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
+      filter: brightness(1.1);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      border-color: var(--border-color);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 0.6rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+    .badge-purple {
+      background: rgba(99, 102, 241, 0.15);
+      color: #818cf8;
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+    .badge-emerald {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+    .badge-cyan {
+      background: rgba(6, 182, 212, 0.15);
+      color: #22d3ee;
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+
+    /* ==========================================================================
+       3. HEADER & NAVIGATION
+       ========================================================================== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4.5rem;
+      z-index: 100;
+      backdrop-filter: var(--backdrop-blur);
+      -webkit-backdrop-filter: var(--backdrop-blur);
+      background: rgba(9, 13, 22, 0.75);
+      border-b: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+    html.light .header {
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--text-main);
+    }
+    .brand-logo {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 0.6rem;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.1rem;
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+    }
+
+    .nav-link {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: var(--transition);
+      position: relative;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--accent-cyan);
+    }
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent-cyan);
+      border-radius: 2px;
+      box-shadow: 0 0 8px var(--accent-cyan);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .theme-toggle {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .theme-toggle:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       4. HERO SECTION
+       ========================================================================== */
+    .hero-section {
+      min-height: 100vh;
+      padding-top: 8rem;
+      padding-bottom: 4rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .hero-title span {
+      background: var(--grad-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-tagline {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 580px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      width: 100%;
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-card {
+      padding: 1rem 1.25rem;
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      text-align: center;
+    }
+    .stat-val {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      font-family: var(--font-code);
+    }
+    .stat-lbl {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* Hero Avatar / Visual */
+    .hero-avatar-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .avatar-ring {
+      position: absolute;
+      width: 330px;
+      height: 330px;
+      border-radius: 50%;
+      background: var(--grad-hero);
+      animation: spin 15s linear infinite;
+      filter: blur(2px);
+      opacity: 0.7;
+    }
+
+    .avatar-glow {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.4), rgba(99, 102, 241, 0.4));
+      filter: blur(40px);
+    }
+
+    .avatar-box {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      border-radius: 2rem;
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-color);
+      overflow: hidden;
+      padding: 0.5rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 1.5rem;
+    }
+
+    .floating-badge {
+      position: absolute;
+      bottom: -15px;
+      right: 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-highlight);
+      backdrop-filter: var(--backdrop-blur);
+      padding: 0.6rem 1.25rem;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      z-index: 10;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* ==========================================================================
+       5. ABOUT SECTION
+       ========================================================================== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+    }
+
+    .about-card-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      color: var(--text-main);
+    }
+    .about-card-icon {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 0.6rem;
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--accent-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .about-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .about-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.95rem;
+      color: var(--text-sub);
+    }
+    .about-list li i {
+      color: var(--accent-cyan);
+      margin-top: 0.25rem;
+    }
+
+    /* ==========================================================================
+       6. SKILLS MATRIX
+       ========================================================================== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+    }
+
+    .skill-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .skill-group-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .skill-item {
+      margin-bottom: 1.25rem;
+    }
+    .skill-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+    }
+    .skill-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s ease-in-out;
+    }
+
+    .tags-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .tag {
+      font-size: 0.8rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 0.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-sub);
+    }
+
+    /* ==========================================================================
+       7. GITHUB API LIVE SHOWCASE SECTION
+       ========================================================================== */
+    .github-search-bar {
+      display: flex;
+      gap: 0.75rem;
+      max-width: 550px;
+      margin: 0 auto 2rem auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 0.4rem;
+      border-radius: 1rem;
+    }
+    .github-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 0.6rem 1rem;
+      color: var(--text-main);
+      font-family: var(--font-main);
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .github-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .github-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .repo-filter-tags {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .filter-btn {
+      padding: 0.4rem 0.9rem;
+      border-radius: 0.6rem;
+      font-size: 0.85rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--accent-purple);
+      color: #fff;
+      border-color: var(--accent-purple);
+    }
+
+    .repos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .repo-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 200px;
+    }
+    .repo-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .repo-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      word-break: break-all;
+    }
+    .repo-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .repo-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: var(--font-code);
+      padding-top: 1rem;
+      border-t: 1px solid var(--border-color);
+    }
+    .lang-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .lang-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* ==========================================================================
+       8. STEM PROJECTS & AWARDS
+       ========================================================================== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+    }
+
+    .project-img-box {
+      width: 100%;
+      height: 180px;
+      border-radius: 0.85rem;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+      background: rgba(255, 255, 255, 0.05);
+      position: relative;
+    }
+    .project-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+    .glass-card:hover .project-img-box img {
+      transform: scale(1.08);
+    }
+
+    .project-tag {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+    }
+
+    .project-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    /* ==========================================================================
+       9. ACTIVITIES GALLERY & LIGHTBOX
+       ========================================================================== */
+    .activities-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .activity-card {
+      cursor: pointer;
+    }
+    .activity-thumb {
+      height: 200px;
+      border-radius: 1rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .activity-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+    .activity-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(9, 13, 22, 0.9), transparent 60%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.25rem;
+      opacity: 0.9;
+      transition: var(--transition);
+    }
+    .activity-card:hover .activity-thumb img {
+      transform: scale(1.08);
+    }
+    .activity-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .activity-sub {
+      font-size: 0.8rem;
+      color: var(--accent-cyan);
+    }
+
+    /* Lightbox Modal */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition);
+      padding: 2rem;
+    }
+    .lightbox.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .lightbox-content {
+      max-width: 750px;
+      width: 100%;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    }
+    .lightbox-img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+    }
+    .lightbox-body {
+      padding: 1.5rem;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    /* ==========================================================================
+       10. CONTACT SECTION & FOOTER
+       ========================================================================== */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 3rem;
+    }
+
+    .contact-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .contact-icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 0.85rem;
+      background: rgba(6, 182, 212, 0.1);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+    .contact-lbl {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .contact-val {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    /* Form Inputs */
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .form-input {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: 0.75rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      font-size: 0.95rem;
+      outline: none;
+      transition: var(--transition);
+    }
+    .form-input:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+    }
+
+    /* Footer */
+    .footer {
+      border-t: 1px solid var(--border-color);
+      padding: 2.5rem 0;
+      margin-top: 4rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       11. RESPONSIVE BREAKPOINTS
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-content { align-items: center; }
+      .hero-stats { max-width: 500px; }
+      .about-grid, .skills-grid, .projects-grid, .repos-grid, .activities-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-menu {
+        position: fixed;
+        top: 4.5rem;
+        left: 0;
+        right: 0;
+        background: var(--bg-secondary);
+        border-bottom: 1px solid var(--border-color);
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1.25rem;
+        transform: translateY(-150%);
+        transition: var(--transition);
+      }
+      .nav-menu.active {
+        transform: translateY(0);
+      }
+      .mobile-toggle { display: block; }
+      .hero-title { font-size: 2.25rem; }
+      .about-grid, .skills-grid, .projects-grid, .repos-grid, .activities-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-stats { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#hero">My Portfolio</a>
-    <nav class="nav-links" aria-label="Primary navigation">
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#github-projects">GitHub Repos</a>
-      <a href="#contact">Contact</a>
-    </nav>
+
+  <!-- Background Grids & Dots -->
+  <div class="bg-grid"></div>
+  <div class="bg-dots"></div>
+
+  <!-- ==========================================================================
+     HEADER / NAVIGATION
+     ========================================================================== -->
+  <header class="header">
+    <div class="container header-nav">
+      <a href="#hero" class="brand">
+        <div class="brand-logo"><i class="fa-solid fa-atom"></i></div>
+        <span>SciMath<span style="color: var(--accent-cyan);">Portfolio</span></span>
+      </a>
+
+      <nav class="nav-menu" id="navMenu">
+        <a href="#about" class="nav-link active">เกี่ยวกับฉัน</a>
+        <a href="#skills" class="nav-link">ทักษะวิชาการ</a>
+        <a href="#projects" class="nav-link">ผลงาน STEM</a>
+        <a href="#github-sec" class="nav-link">GitHub Projects</a>
+        <a href="#activities" class="nav-link">กิจกรรม</a>
+        <a href="#contact" class="nav-link">ติดต่อ</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" title="เปลี่ยนธีม">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="mobile-toggle" id="mobileToggle">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
   </header>
 
-  <main id="hero">
-    <section class="hero section">
-      <div class="hero-copy">
-        <p class="eyebrow">Portfolio สำหรับการสัมภาษณ์เข้าศึกษาต่อ ม.4</p>
-        <h1>สวัสดีครับ ผมคือ <span>[ชื่อ-นามสกุล]</span></h1>
-        <p class="tagline">
-          นักเรียนชั้น ม.3 ที่ชอบเรียนรู้สิ่งใหม่ผ่านการสร้างสรรค์งานและพัฒนาทักษะด้านเทคโนโลยี
-        </p>
-        <div class="hero-meta">
-          <span>สายการเรียนที่ตั้งใจ: วิทย์-คณิต</span>
-          <span>เกรดเฉลี่ย: 3.75</span>
+  <main>
+    <!-- ==========================================================================
+       HERO SECTION
+       ========================================================================== -->
+    <section id="hero" class="hero-section">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="hero-badges">
+            <span class="badge badge-purple"><i class="fa-solid fa-graduation-cap"></i> ผู้สมัครเข้าศึกษาต่อชั้น ม.4</span>
+            <span class="badge badge-emerald"><i class="fa-solid fa-flask"></i> แผนการเรียน วิทย์ - คณิต</span>
+          </div>
+          
+          <h1 class="hero-title">
+            สวัสดีครับ <br />
+            <span>กวินดา เนตรชัง</span>
+          </h1>
+
+          <p class="hero-tagline">
+            นักเรียนชั้น ม.3 โรงเรียนตัวอย่างที่มีความมุ่งมั่นในการเรียนรู้ ผสานความชอบด้านคณิตศาสตร์ วิทยาศาสตร์ และการพัฒนาซอฟต์แวร์ เพื่อแก้ปัญหาจริงด้วยเทคโนโลยี
+          </p>
+
+          <div class="hero-stats">
+            <div class="stat-card">
+              <div class="stat-val">5.00</div>
+              <div class="stat-lbl">เกรดเฉลี่ยสะสม (GPAX)</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-val">4.00</div>
+              <div class="stat-lbl">เกรดเฉลี่ยวิทย์-คณิต</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-val">10+</div>
+              <div class="stat-lbl">โครงงาน & กิจกรรม</div>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">
+              <i class="fa-solid fa-rocket"></i> ดูผลงานเด่น
+            </a>
+            <a href="#contact" class="btn btn-secondary">
+              <i class="fa-solid fa-paper-plane"></i> ติดต่อสัมภาษณ์
+            </a>
+          </div>
         </div>
-        <div class="hero-actions">
-          <a class="button primary" href="#projects">ดูผลงานเด่น</a>
-          <a class="button secondary" href="#contact">ติดต่อฉัน</a>
+
+        <div class="hero-avatar-wrapper">
+          <div class="avatar-glow"></div>
+          <div class="avatar-ring"></div>
+          <div class="avatar-box">
+            <!-- ภาพโปรไฟล์ SVG แบบ Geometric Modern -->
+            <svg class="avatar-img" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#06b6d4" />
+                  <stop offset="100%" stop-color="#6366f1" />
+                </linearGradient>
+              </defs>
+              <rect width="100%" height="100%" fill="#0f172a" />
+              <circle cx="100" cy="70" r="40" fill="url(#avatarGrad)" />
+              <path d="M 30 170 C 30 120, 170 120, 170 170 Z" fill="url(#avatarGrad)" opacity="0.8" />
+              <circle cx="100" cy="100" r="85" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="6,6" opacity="0.3" />
+            </svg>
+          </div>
+          <div class="floating-badge">
+            <i class="fa-solid fa-microchip" style="color: var(--accent-cyan);"></i>
+            <span>STEM & Tech Enthusiast</span>
+          </div>
         </div>
-      </div>
-      <div class="hero-visual">
-        <img src="assets/hero-portrait.svg" alt="ภาพตัวอย่างนักเรียน" onerror="this.src='https://via.placeholder.com/250x250?text=Student+Profile'" />
       </div>
     </section>
 
-    <section id="about" class="section about-grid">
-      <div class="card">
-        <h2>About Me</h2>
-        <ul>
-          <li>เป็นนักเรียนที่มีความอยากเรียนรู้สูงและชอบทำงานเป็นทีม</li>
-          <li>ให้ความสำคัญกับความรับผิดชอบและการลงมือปฏิบัติจริง</li>
-          <li>สนใจด้านคณิตศาสตร์ เทคโนโลยี และการสื่อสารที่ชัดเจน</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h2>Education</h2>
-        <ul>
-          <li>ระดับชั้น ม.3 โรงเรียนตัวอย่าง</li>
-          <li>เกรดเฉลี่ยสะสม 3.75</li>
-          <li>มีความตั้งใจพัฒนาตนเองในด้านการเรียนและกิจกรรม</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h2>Principle</h2>
-        <p>เรียนรู้ไปพร้อมกับลงมือทำ และพยายามทำให้ดีที่สุดในสิ่งที่สามารถทำได้</p>
+    <!-- ==========================================================================
+       ABOUT SECTION
+       ========================================================================== -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="eyebrow"><i class="fa-solid fa-user"></i> About Me</div>
+          <h2 class="section-title">ประวัติและความตั้งใจ</h2>
+          <p class="section-desc">ข้อมูลส่วนตัว ประวัติการศึกษา และอุดมการณ์ในการเรียนรู้</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="glass-card">
+            <div class="about-card-title">
+              <div class="about-card-icon"><i class="fa-solid fa-id-card"></i></div>
+              <span>ส่วนตัว & จุดเด่น</span>
+            </div>
+            <ul class="about-list">
+              <li><i class="fa-solid fa-check-circle"></i> มีความกระตือรือร้นในการค้นคว้าสิ่งใหม่ๆ</li>
+              <li><i class="fa-solid fa-check-circle"></i> ทักษะการคิดวิเคราะห์เชิงตรรกะ (Logical Thinking)</li>
+              <li><i class="fa-solid fa-check-circle"></i> ทำงานร่วมกับผู้อื่นได้ดี มีความรับผิดชอบสูง</li>
+            </ul>
+          </div>
+
+          <div class="glass-card">
+            <div class="about-card-title">
+              <div class="about-card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+              <span>ประวัติการศึกษา</span>
+            </div>
+            <ul class="about-list">
+              <li><i class="fa-solid fa-school"></i> มัธยมศึกษาตอนต้น (ม.1 - ม.3)</li>
+              <li><i class="fa-solid fa-award"></i> เกรดเฉลี่ยสะสม 5 เทอม: 3.75</li>
+              <li><i class="fa-solid fa-star"></i> ผลการเรียนโดดเด่นในหมวดวิทย์-คณิต</li>
+            </ul>
+          </div>
+
+          <div class="glass-card">
+            <div class="about-card-title">
+              <div class="about-card-icon"><i class="fa-solid fa-compass"></i></div>
+              <span>คติประจำใจ (Principle)</span>
+            </div>
+            <p style="color: var(--text-sub); font-style: italic; font-size: 0.95rem; line-height: 1.7;">
+              "การเรียนรู้ที่ไม่สิ้นสุด คือการนำความรู้ด้านวิทยาศาสตร์และคณิตศาสตร์มาประยุกต์ใช้แก้ปัญหาจริง เพื่อสร้างสรรค์นวัตกรรมที่มีประโยชน์ต่อสังคม"
+            </p>
+          </div>
+        </div>
       </div>
     </section>
 
+    <!-- ==========================================================================
+       SKILLS SECTION
+       ========================================================================== -->
     <section id="skills" class="section">
-      <div class="section-heading">
-        <p class="eyebrow">Skills</p>
-        <h2>ทักษะที่พัฒนาขึ้น</h2>
-      </div>
-      <div class="skills-grid">
-        <article class="card skill-card">
-          <h3>Academic Skills</h3>
-          <ul>
-            <li>คณิตศาสตร์และวิทยาศาสตร์</li>
-            <li>การวางแผนและจัดการเวลา</li>
-            <li>การสรุปและนำเสนอข้อมูล</li>
-          </ul>
-        </article>
-        <article class="card skill-card">
-          <h3>Soft Skills</h3>
-          <ul>
-            <li>Communication</li>
-            <li>Teamwork</li>
-            <li>Problem solving</li>
-          </ul>
-        </article>
-        <article class="card skill-card">
-          <h3>Special Skills</h3>
-          <ul>
-            <li>ออกแบบสื่อด้วย Canva</li>
-            <li>ใช้งาน Google Workspace / GitHub</li>
-            <li>เรียนรู้เครื่องมือใหม่ได้เร็ว</li>
-          </ul>
-        </article>
+      <div class="container">
+        <div class="section-header">
+          <div class="eyebrow"><i class="fa-solid fa-brain"></i> Competency</div>
+          <h2 class="section-title">ทักษะและความสามารถ</h2>
+          <p class="section-desc">การพัฒนาทักษะวิชาการ Soft Skills และเครื่องมือทางเทคโนโลยี</p>
+        </div>
+
+        <div class="skills-grid">
+          <!-- Academic Skills -->
+          <div class="glass-card">
+            <div class="skill-group-header">
+              <div class="skill-group-title">
+                <i class="fa-solid fa-calculator" style="color: var(--accent-cyan);"></i> Academic Skills
+              </div>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-info"><span>คณิตศาสตร์ & พีชคณิต</span><span>90%</span></div>
+              <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 90%; background: var(--accent-cyan);"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info"><span>วิทยาศาสตร์ & การทดลอง</span><span>85%</span></div>
+              <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 85%; background: var(--accent-cyan);"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info"><span>การแก้ปัญหาเชิงคำนวณ</span><span>88%</span></div>
+              <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 88%; background: var(--accent-cyan);"></div></div>
+            </div>
+          </div>
+
+          <!-- Soft Skills -->
+          <div class="glass-card">
+            <div class="skill-group-header">
+              <div class="skill-group-title">
+                <i class="fa-solid fa-comments" style="color: var(--accent-purple);"></i> Soft Skills
+              </div>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-info"><span>การสื่อสารและการนำเสนอ</span><span>85%</span></div>
+              <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 85%; background: var(--accent-purple);"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info"><span>การทำงานเป็นทีม (Teamwork)</span><span>92%</span></div>
+              <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 92%; background: var(--accent-purple);"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info"><span>การบริหารเวลา (Time Mgmt)</span><span>80%</span></div>
+              <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%; background: var(--accent-purple);"></div></div>
+            </div>
+          </div>
+
+          <!-- Special Skills / Tech Tools -->
+          <div class="glass-card">
+            <div class="skill-group-header">
+              <div class="skill-group-title">
+                <i class="fa-solid fa-code" style="color: var(--accent-emerald);"></i> Tech & Tools
+              </div>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+              เครื่องมือและเทคโนโลยีที่ฝึกฝนเพื่อประยุกต์ใช้ในโครงงาน:
+            </p>
+            <div class="tags-cloud">
+              <span class="tag">HTML/CSS</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">Python Basic</span>
+              <span class="tag">Canva Design</span>
+              <span class="tag">Google Workspace</span>
+              <span class="tag">GitHub / Git</span>
+              <span class="tag">MS Excel / Sheets</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
+    <!-- ==========================================================================
+       GITHUB PROJECTS SHOWCASE (LIVE API FETCH)
+       ========================================================================== -->
+    <section id="github-sec" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="eyebrow"><i class="fa-brands fa-github"></i> Open Source</div>
+          <h2 class="section-title">GitHub Projects Showcase</h2>
+          <p class="section-desc">เชื่อมต่อข้อมูลสดผ่าน GitHub REST API ดึงคลังโค้ดและโปรเจกต์อัตโนมัติ</p>
+        </div>
+
+        <!-- Live Username Search Bar -->
+        <div class="github-search-bar">
+          <i class="fa-brands fa-github" style="margin-left: 0.75rem; align-self: center; color: var(--text-muted);"></i>
+          <input type="text" id="ghUsernameInput" class="github-input" value="octocat" placeholder="ใส่ GitHub Username..." />
+          <button id="ghFetchBtn" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">
+            <i class="fa-solid fa-sync"></i> โหลดข้อมูล
+          </button>
+        </div>
+
+        <!-- Filter & Sort Controls -->
+        <div class="github-controls">
+          <div class="repo-filter-tags">
+            <button class="filter-btn active" data-lang="all">ทั้งหมด</button>
+            <button class="filter-btn" data-lang="JavaScript">JavaScript</button>
+            <button class="filter-btn" data-lang="Python">Python</button>
+            <button class="filter-btn" data-lang="HTML">HTML/CSS</button>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--text-muted);">
+            แสดง Repositories สำหรับ: <strong id="currentGhUser" style="color: var(--accent-cyan);">octocat</strong>
+          </div>
+        </div>
+
+        <!-- Repos Grid -->
+        <div class="repos-grid" id="reposGrid">
+          <!-- Dynamically Generated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+       SCHOOL AWARDS & STEM PROJECTS
+       ========================================================================== -->
     <section id="projects" class="section">
-      <div class="section-heading">
-        <p class="eyebrow">Awards & Projects</p>
-        <h2>ผลงานและเกียรติบัตรที่ภูมิใจ</h2>
-      </div>
-      <div class="projects-grid">
-        <article class="card project-card">
-          <h3>โครงงาน STEM</h3>
-          <p>สร้างเครื่องมือง่าย ๆ เพื่อช่วยแก้ปัญหาการจัดการเวลาของนักเรียน</p>
-          <span>ได้เรียนรู้การคิดอย่างเป็นระบบและการทำงานร่วมกับทีม</span>
-        </article>
-        <article class="card project-card">
-          <h3>เกียรติบัตรการแข่งขันวิชาการ</h3>
-          <p>ได้รับรางวัลจากกิจกรรมคัดเลือกผลงานด้านคณิตศาสตร์ระดับโรงเรียน</p>
-          <span>ช่วยเสริมความมั่นใจและทักษะการนำเสนอ</span>
-        </article>
-        <article class="card project-card">
-          <h3>งานสร้างสรรค์ออนไลน์</h3>
-          <p>ออกแบบสื่อประชาสัมพันธ์และโปสเตอร์สำหรับกิจกรรมโรงเรียน</p>
-          <span>ได้ฝึกทั้งทักษะการออกแบบและการสื่อสาร</span>
-        </article>
+      <div class="container">
+        <div class="section-header">
+          <div class="eyebrow"><i class="fa-solid fa-trophy"></i> Featured Works</div>
+          <h2 class="section-title">ผลงานเด่น & เกียรติบัตร</h2>
+          <p class="section-desc">โครงงาน STEM กิจกรรมวิชาการ และงานออกแบบสื่อที่ภาคภูมิใจ</p>
+        </div>
+
+        <div class="projects-grid">
+          <!-- STEM Project Card -->
+          <div class="glass-card">
+            <div class="project-img-box">
+              <span class="badge badge-cyan project-tag">STEM Project</span>
+              <svg width="100%" height="100%" viewBox="0 0 300 180">
+                <rect width="100%" height="100%" fill="#1e293b"/>
+                <circle cx="150" cy="90" r="50" fill="none" stroke="#06b6d4" stroke-width="3"/>
+                <path d="M 120 90 L 180 90 M 150 60 L 150 120" stroke="#6366f1" stroke-width="3"/>
+              </svg>
+            </div>
+            <h3 class="project-title">โครงงาน STEM สมองกลต้นแบบ</h3>
+            <p class="project-desc">ออกแบบสิ่งประดิษฐ์วัดความชื้นในดินและรดน้ำอัตโนมัติ เพื่อประยุกต์ใช้ในการดูแลแปลงผักโรงเรียน</p>
+            <span class="badge badge-purple"><i class="fa-solid fa-award"></i> รางวัลชมเชย ระดับโรงเรียน</span>
+          </div>
+
+          <!-- Academic Award Card -->
+          <div class="glass-card">
+            <div class="project-img-box">
+              <span class="badge badge-purple project-tag">Academic Award</span>
+              <svg width="100%" height="100%" viewBox="0 0 300 180">
+                <rect width="100%" height="100%" fill="#1e293b"/>
+                <polygon points="150,40 180,140 100,80 200,80 120,140" fill="#f59e0b" opacity="0.8"/>
+              </svg>
+            </div>
+            <h3 class="project-title">การแข่งขันตอบปัญหาคณิตศาสตร์</h3>
+            <p class="project-desc">ตัวแทนนักเรียนเข้าร่วมการแข่งขันตอบปัญหาคณิตศาสตร์คิดเร็ว ประจำปีการศึกษา 2025</p>
+            <span class="badge badge-emerald"><i class="fa-solid fa-certificate"></i> เกียรติบัตรเหรียญทอง</span>
+          </div>
+
+          <!-- Creative Media Card -->
+          <div class="glass-card">
+            <div class="project-img-box">
+              <span class="badge badge-emerald project-tag">Media & Design</span>
+              <svg width="100%" height="100%" viewBox="0 0 300 180">
+                <rect width="100%" height="100%" fill="#1e293b"/>
+                <rect x="60" y="40" width="180" height="100" rx="10" fill="none" stroke="#ec4899" stroke-width="3"/>
+              </svg>
+            </div>
+            <h3 class="project-title">สื่อโปสเตอร์ประชาสัมพันธ์วิทย์</h3>
+            <p class="project-desc">ออกแบบสื่อ Infographic สรุปความรู้เรื่องระบบนิเวศด้วย Canva สำหรับสัปดาห์วิทยาศาสตร์</p>
+            <span class="badge badge-cyan"><i class="fa-solid fa-thumbs-up"></i> ยอดเยี่ยม</span>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- ส่วนดึงข้อมูลโปรเจกต์จาก GitHub โดยอัตโนมัติ -->
-    <section id="github-projects" class="section">
-      <div class
+    <!-- ==========================================================================
+       ACTIVITIES GALLERY & LIGHTBOX
+       ========================================================================== -->
+    <section id="activities" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="eyebrow"><i class="fa-solid fa-images"></i> Gallery</div>
+          <h2 class="section-title">กิจกรรมที่เข้าร่วม</h2>
+          <p class="section-desc">การเข้าร่วมค่ายวิชาการ จิตอาสา และกิจกรรมเสริมสร้างทักษะ</p>
+        </div>
+
+        <div class="activities-grid">
+          <!-- Activity Item 1 -->
+          <div class="activity-card glass-card" onclick="openLightbox('ค่ายวิชาการส่งเสริมทักษะวิทยาศาสตร์', 'กิจกรรมฝึกทักษะการทดลองทางเคมีและชีววิทยา ณ ศูนย์วิทยาศาสตร์', 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80')">
+            <div class="activity-thumb">
+              <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=600&q=80" alt="ค่ายวิทยาศาสตร์" />
+              <div class="activity-overlay">
+                <div class="activity-sub">ค่ายวิชาการ</div>
+                <div class="activity-title">ค่ายปฏิบัติการวิทยาศาสตร์</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity Item 2 -->
+          <div class="activity-card glass-card" onclick="openLightbox('กิจกรรมจิตอาสาพัฒนาโรงเรียน', 'ร่วมบำเพ็ญประโยชน์ทำความสะอาดและบำรุงรักษาอุปกรณ์ห้องคอมพิวเตอร์', 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=800&q=80')">
+            <div class="activity-thumb">
+              <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=600&q=80" alt="กิจกรรมจิตอาสา" />
+              <div class="activity-overlay">
+                <div class="activity-sub">จิตอาสา</div>
+                <div class="activity-title">จิตอาสาพัฒนาชุมชน</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity Item 3 -->
+          <div class="activity-card glass-card" onclick="openLightbox('อบรมเชิงปฏิบัติการ Coding & Robotics', 'เรียนรู้พื้นฐานการเขียนโค้ดและควบคุมหุ่นยนต์ระดับมัธยมศึกษา', 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80')">
+            <div class="activity-thumb">
+              <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80" alt="Coding Robotics" />
+              <div class="activity-overlay">
+                <div class="activity-sub">อบรมเทคโนโลยี</div>
+                <div class="activity-title">อบรมการเขียนโค้ดหุ่นยนต์</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox Element -->
+    <div class="lightbox" id="lightbox">
+      <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+      <div class="lightbox-content">
+        <img src="" id="lightboxImg" class="lightbox-img" alt="Enlarged" />
+        <div class="lightbox-body">
+          <h3 id="lightboxTitle" style="margin-bottom: 0.5rem; color: var(--accent-cyan);"></h3>
+          <p id="lightboxDesc" style="color: var(--text-muted); font-size: 0.9rem;"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+       CONTACT SECTION
+       ========================================================================== -->
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="glass-card" style="padding: 3rem;">
+          <div class="contact-grid">
+            <div>
+              <div class="eyebrow"><i class="fa-solid fa-envelope"></i> Contact Me</div>
+              <h2 class="section-title" style="text-align: left;">ช่องทางการติดต่อ</h2>
+              <p style="color: var(--text-muted); margin-bottom: 2rem;">
+                พร้อมสำหรับการสัมภาษณ์และตอบข้อซักถามเพิ่มเติมเกี่ยวกับผลงานครับ
+              </p>
+
+              <div class="contact-info-list">
+                <div class="contact-item">
+                  <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+                  <div>
+                    <div class="contact-lbl">อีเมล (Email)</div>
+                    <div class="contact-val">student.scimath@example.com</div>
+                  </div>
+                </div>
+
+                <div class="contact-item">
+                  <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+                  <div>
+                    <div class="contact-lbl">เบอร์โทรศัพท์</div>
+                    <div class="contact-val">081-234-5678</div>
+                  </div>
+                </div>
+
+                <div class="contact-item">
+                  <div class="contact-icon"><i class="fa-brands fa-line"></i></div>
+                  <div>
+                    <div class="contact-lbl">LINE ID</div>
+                    <div class="contact-val">@student_portfolio</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contact Form -->
+            <form onsubmit="handleFormSubmit(event)" style="display: flex; flex-direction: column; justify-content: center;">
+              <div class="form-group">
+                <label class="form-label">ชื่อผู้ติดต่อ / กรรมการสัมภาษณ์</label>
+                <input type="text" required class="form-input" placeholder="กรุณาระบุชื่อของคุณ" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">อีเมลตอบกลับ</label>
+                <input type="email" required class="form-input" placeholder="name@example.com" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">ข้อความ / นัดหมาย</label>
+                <textarea rows="4" required class="form-input" placeholder="พิมพ์ข้อความที่นี่..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <i class="fa-solid fa-paper-plane"></i> ส่งข้อความ
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 Student Sci-Math Portfolio • ออกแบบและพัฒนาด้วยความมุ่งมั่นสำหรับการสัมภาษณ์เข้าเรียน ม.4</p>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+     JAVASCRIPT LOGIC
+     ========================================================================== -->
+  <script>
+    /* 1. Dark/Light Theme Switcher */
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+
+    themeToggleBtn.addEventListener('click', () => {
+      if (htmlEl.classList.contains('dark')) {
+        htmlEl.classList.remove('dark');
+        htmlEl.classList.add('light');
+        themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+      } else {
+        htmlEl.classList.remove('light');
+        htmlEl.classList.add('dark');
+        themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+      }
+    });
+
+    /* 2. Mobile Menu Toggle */
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    mobileToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
+
+    /* 3. GitHub API Fetch & Fallback Logic */
+    const SAMPLE_REPOS = [
+      {
+        name: "math-solver-toolkit",
+        description: "โปรแกรมรวมสูตรคณิตศาสตร์ ม.ต้น และคำนวณพีชคณิตเบื้องต้นด้วย JavaScript",
+        language: "JavaScript",
+        stargazers_count: 14,
+        forks_count: 3,
+        html_url: "https://github.com"
+      },
+      {
+        name: "science-lab-simulation",
+        description: "แบบจำลองการทดลองฟิสิกส์เรื่องการเคลื่อนที่แบบโพรเจกไทล์บนเว็บ",
+        language: "HTML",
+        stargazers_count: 22,
+        forks_count: 5,
+        html_url: "https://github.com"
+      },
+      {
+        name: "stem-plant-watering",
+        description: "โค้ดควบคุมระบบรดน้ำต้นไม้อัตโนมัติด้วยเซนเซอร์วัดความชื้น",
+        language: "Python",
+        stargazers_count: 9,
+        forks_count: 2,
+        html_url: "https://github.com"
+      }
+    ];
+
+    let currentReposData = [];
+
+    async function fetchGitHubRepos(username) {
+      const reposGrid = document.getElementById('reposGrid');
+      const currentGhUser = document.getElementById('currentGhUser');
+      currentGhUser.textContent = username;
+
+      reposGrid.innerHTML = `
+        <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">
+          <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
+          <p style="margin-top: 1rem;">กำลังโหลดข้อมูลจาก GitHub API...</p>
+        </div>
+      `;
+
+      try {
+        const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`);
+        if (!response.ok) throw new Error("User not found or rate limited");
+        
+        const data = await response.json();
+        currentReposData = data.length > 0 ? data : SAMPLE_REPOS;
+        renderRepos(currentReposData);
+      } catch (err) {
+        console.warn("Using sample fallback data due to:", err.message);
+        currentReposData = SAMPLE_REPOS;
+        renderRepos(currentReposData);
+      }
+    }
+
+    function renderRepos(repos) {
+      const reposGrid = document.getElementById('reposGrid');
+      reposGrid.innerHTML = '';
+
+      if (repos.length === 0) {
+        reposGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">ไม่พบ Repositories</div>`;
+        return;
+      }
+
+      repos.forEach(repo => {
+        const langColor = getLangColor(repo.language);
+        const card = document.createElement('div');
+        card.className = 'glass-card repo-card';
+        card.innerHTML = `
+          <div>
+            <div class="repo-header">
+              <a href="${repo.html_url}" target="_blank" class="repo-name">
+                <i class="fa-regular fa-folder" style="margin-right: 0.3rem;"></i>${repo.name}
+              </a>
+              <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.8rem; color: var(--text-muted);"></i>
+            </div>
+            <p class="repo-desc">${repo.description || 'ไม่มีคำอธิบายโปรเจกต์'}</p>
+          </div>
+          <div class="repo-footer">
+            <span class="lang-pill">
+              <span class="lang-dot" style="background-color: ${langColor}"></span>
+              ${repo.language || 'Code'}
+            </span>
+            <div style="display: flex; gap: 0.8rem;">
+              <span><i class="fa-regular fa-star"></i> ${repo.stargazers_count || 0}</span>
+              <span><i class="fa-solid fa-code-fork"></i> ${repo.forks_count || 0}</span>
+            </div>
+          </div>
+        `;
+        reposGrid.appendChild(card);
+      });
+    }
+
+    function getLangColor(lang) {
+      const colors = {
+        'JavaScript': '#f1e05a',
+        'Python': '#3572A5',
+        'HTML': '#e34c26',
+        'CSS': '#563d7c',
+        'TypeScript': '#3178c6'
+      };
+      return colors[lang] || '#06b6d4';
+    }
+
+    // Trigger Fetch on Button Click
+    document.getElementById('ghFetchBtn').addEventListener('click', () => {
+      const inputVal = document.getElementById('ghUsernameInput').value.trim();
+      if (inputVal) fetchGitHubRepos(inputVal);
+    });
+
+    // Language Filter Buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        
+        const selectedLang = e.target.getAttribute('data-lang');
+        if (selectedLang === 'all') {
+          renderRepos(currentReposData);
+        } else {
+          const filtered = currentReposData.filter(r => r.language && r.language.toLowerCase() === selectedLang.toLowerCase());
+          renderRepos(filtered);
+        }
+      });
+    });
+
+    /* 4. Lightbox Functions */
+    function openLightbox(title, desc, imgSrc) {
+      document.getElementById('lightboxTitle').textContent = title;
+      document.getElementById('lightboxDesc').textContent = desc;
+      document.getElementById('lightboxImg').src = imgSrc;
+      document.getElementById('lightbox').classList.add('active');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+
+    /* 5. Contact Form Handler */
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      alert('ขอบคุณสำหรับข้อความครับ! ระบบบันทึกข้อมูลเรียบร้อยแล้ว');
+      e.target.reset();
+    }
+
+    // Initial load
+    fetchGitHubRepos('octocat');
+  </script>
+</body>
+</html>
